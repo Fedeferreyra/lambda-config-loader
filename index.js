@@ -1,3 +1,4 @@
+'use strict'
 const fs = require('fs');
 const KmsDecrypter = require('./KmsDecrypter');
 
@@ -21,16 +22,18 @@ const loadConfig = async(configFilePath, context) => {
     try {
         const configJson = fs.readFileSync(configFilePath);
 
-        console.log("Successfully loaded config");
+        console.log("Successfully loaded config file");
         const config = JSON.parse(configJson.toString())
-        functionName = context.functionName
-        functionArn = context.invokedFunctionArn
-        alias = functionArn.split(":").pop()
-        if (alias == functionName) {
+        const functionName = context.functionName
+        const functionArn = context.invokedFunctionArn
+        let alias = functionArn.split(":").pop()
+        if (alias == functionName || alias === "") {
             alias = "LATEST"
         }
+        console.log(`Loading config for alias ${alias}`);
         envConfig = config[alias];
-        envConfig = await decryptEncrypetedValues(envConfig);
+        console.log(JSON.stringify(envConfig));
+        envConfig = await decryptValues(envConfig);
         return envConfig;
     } catch (e) {
         console.error('Failed to get configuration.', e);
@@ -38,19 +41,24 @@ const loadConfig = async(configFilePath, context) => {
     }
 };
 
-const decryptEncrypetedValues = async (envConfig) => {
-
-    for (const property in envConfig) {
-        if (envConfig.hasOwnProperty(property)) {
-            if(('/-kms/gm'.exec(property)) !== null){
-                const value = envConfig[property];
-                const newProperty = property.slice(0, -4);
-                const newValue = await KmsDecrypter.decrypt(value);
-                envConfig[newProperty] = newValue;
-                delete envConfig[property]
-
+const decryptValues = async (config) => {
+    console.log(JSON.stringify(config));
+    for (const property in config) {
+        if (config.hasOwnProperty(property)) {
+            if(Object.keys(config[property]).length > 1 && typeof config[property] !== 'string'){
+                console.log("Recursively finding values to decrypt");
+                config = await decryptValues(config[property])
+            }else {
+                console.log(`Evaluating property ${property}`);
+                if ((property.match('-kms')) !== null) {
+                    console.log(`Attempting to decrypt property ${property}`);
+                    const value = config[property];
+                    const newProperty = property.slice(0, -4);
+                    config[newProperty] = await KmsDecrypter.decrypt(value);
+                    delete config[property]
+                }
             }
         }
     }
-    return envConfig;
+    return config;
 };

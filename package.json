@@ -1,6 +1,6 @@
 {
   "name": "lambda-config-loader",
-  "version": "1.1.0",
+  "version": "1.1.9",
   "description": "A simple config loader for AWS lambda functions",
   "main": "index.js",
   "scripts": {
@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.368.0"
   }
 }

@@ -2,7 +2,6 @@
 const AWS = require('aws-sdk');
 
 module.exports.decrypt = (key) => {
-    console.log("Entering KMS decrypter");
     return new Promise((resolve, reject) => {
         const kms = new AWS.KMS();
         console.log('Attempting to decrypt: ' + key);

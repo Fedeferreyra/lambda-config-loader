@@ -21,13 +21,12 @@ module.exports.getEnvConfig = () => {
 const loadConfig = async(configFilePath, context) => {
     try {
         const configJson = fs.readFileSync(configFilePath);
-
         console.log("Successfully loaded config file");
         const config = JSON.parse(configJson.toString())
         const functionName = context.functionName
         const functionArn = context.invokedFunctionArn
         let alias = functionArn.split(":").pop()
-        if (alias == functionName || alias === "") {
+        if (alias === functionName || alias === "") {
             alias = "LATEST"
         }
         console.log(`Loading config for alias ${alias}`);
@@ -42,14 +41,11 @@ const loadConfig = async(configFilePath, context) => {
 };
 
 const decryptValues = async (config) => {
-    console.log(JSON.stringify(config));
     for (const property in config) {
         if (config.hasOwnProperty(property)) {
             if(Object.keys(config[property]).length > 1 && typeof config[property] !== 'string'){
-                console.log("Recursively finding values to decrypt");
                 config = await decryptValues(config[property])
             }else {
-                console.log(`Evaluating property ${property}`);
                 if ((property.match('-kms')) !== null) {
                     console.log(`Attempting to decrypt property ${property}`);
                     const value = config[property];

@@ -1,0 +1,18 @@
+{
+  "LATEST": {
+    "db": {
+      "host": "atp-rds-instance.coevd1nq89wu.sa-east-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "atp_user_permission",
+      "user": "atp_user",
+      "password-kms": "AQICAHirQb0LJjLlCtLj2k9m5+TG7WKv+pW/qRH1+D1Svp7nogGd6Wvq/UdB0cMj3jIYVJ60AAAAZzBlBgkqhkiG9w0BBwagWDBWAgEAMFEGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMm+jTwwZNrldMK+VhAgEQgCTte5p33Il2qtOUUDAuHyDh4DjoTDX2dAiDrnxypiRYhN/F8yo="
+    },
+    "db2": {
+      "host": "atp-rds-instance.coevd1nq89wu.sa-east-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "atp_user_permission",
+      "user": "atp_user",
+      "password-kms": "AQICAHirQb0LJjLlCtLj2k9m5+TG7WKv+pW/qRH1+D1Svp7nogGd6Wvq/UdB0cMj3jIYVJ60AAAAZzBlBgkqhkiG9w0BBwagWDBWAgEAMFEGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMm+jTwwZNrldMK+VhAgEQgCTte5p33Il2qtOUUDAuHyDh4DjoTDX2dAiDrnxypiRYhN/F8yo="
+    }
+  }
+}

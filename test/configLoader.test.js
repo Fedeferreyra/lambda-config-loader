@@ -11,5 +11,6 @@ describe('Should return configuration decrypter configuration', () => {
         const config = await configLoader.getConfig({functionName: "test", invokedFunctionArn: ":"}, './test/config.json');
 
         expect(Object.keys(config).length).toBe(2)
+        expect(config.db['password-kms']).toBe(undefined)
     });
 });

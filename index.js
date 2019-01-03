@@ -27,7 +27,7 @@ const loadConfig = async(configFilePath, context) => {
         if (alias === functionName || alias === "") {
             alias = "LATEST"
         }
-        envConfig = config[alias];
+        envConfig = config[alias.toUpperCase()];
         envConfig = await decryptValues(envConfig);
         return envConfig;
     } catch (e) {
